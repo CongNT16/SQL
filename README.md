@@ -14,6 +14,12 @@
 * CREATE INDEX - creates an index (search key)
 * DROP INDEX - deletes an index
 
-## Hello
+### SQL cheatsheet
 
-### hello evertyone
+<img src="./Images/SQL cheatsheet1.png" width ="900">
+
+
+<img src="./Images/SQL cheatsheet2.png" width ="900">
+
+
+<img src="./Images/SQL cheatsheet3.png" width ="900">
