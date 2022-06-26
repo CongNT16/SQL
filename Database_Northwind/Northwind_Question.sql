@@ -349,6 +349,4 @@ FROM t
 ORDER BY t.[Total Ordered] ASC
 
 
-SELECT *
-FROM 
 
