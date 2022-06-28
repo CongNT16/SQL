@@ -50,71 +50,41 @@ FROM Products p
 LEFT JOIN [Order Details] o ON p.ProductID = o.ProductID; 
 
 --10
-with t as(
-select o.CustomerID, count(o.OrderID) as 'number order'
-from [Orders] o
-group by o.CustomerID)
-
-select c.*
-from t
-left outer join Customers c
-on c.CustomerID = t.CustomerID
-where t.[number order]=0
+SELECT * FROM Customers c
+WHERE CustomerID not in (SELECT CustomerID FROM Orders)
 
 --11
-with t as(
-select o.CustomerID, o.OrderDate, count(o.OrderID) as 'number order'
-from [Orders] o
-group by o.CustomerID, o.OrderDate)
-
-select c.*
-from t
-left outer join Customers c
-on c.CustomerID = t.CustomerID
-where t.[number order]=0 and month(t.OrderDate)=7 and year(t.OrderDate) = 1997
+SELECT * FROM Customers c
+WHERE c.CustomerID not in (SELECT CustomerID FROM Orders WHERE OrderDate between '1997/07/01' and '1997/07/31')
 
 --12
-with t as(
-select o.CustomerID, o.OrderDate, count(o.OrderID) as 'number order'
-from [Orders] o
-group by o.CustomerID, o.OrderDate)
-select c.*
-from t
-left outer join Customers c
-on c.CustomerID = t.CustomerID
-where t.[number order]=0 and month(t.OrderDate)=7 and year(t.OrderDate) = 1997 and day(t.OrderDate)>=1 and day(t.OrderDate)<=15
+SELECT * FROM Customers c
+WHERE c.CustomerID in (SELECT CustomerID FROM Orders WHERE OrderDate between '1997/07/01' and '1997/07/15')
 
 --13
 select p.ProductName, c.CategoryName, p.UnitPrice
 from Products p
-left outer join Categories c
+inner join Categories c
 on p.CategoryID = c.CategoryID
 
 --14
-with t as(
 select c.City
 from Customers c
-union all
+union 
 select e.City
-from Employees e)
-select distinct t.*
-from t
+from Employees e
 
 --15
-with t as(
 select c.Country
 from Customers c
-union all
+union 
 select e.Country
 from Employees e
-)
-select distinct t.*
-from t
 
 --16
-select convert(nvarchar, e.EmployeeID) as 'CodeID', e.LastName + e.FirstName as 'Name', e.Address, e.HomePhone as 'Phong'
+select convert(nvarchar, e.EmployeeID) as 'CodeID', e.LastName +' '+ e.FirstName as 'Name', e.Address, e.HomePhone as 'Phone'
 from Employees e
-union all
+union 
 select c.CustomerID as 'CodeID', c.CompanyName as 'Name', c.Address, c.Phone
 from Customers c
 
